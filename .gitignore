@@ -2,3 +2,5 @@
 venv/
 # PyCharm
 .idea/
+# Mac System
+.DS_Store
