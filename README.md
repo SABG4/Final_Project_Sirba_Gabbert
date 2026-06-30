@@ -50,4 +50,3 @@ Firstname_Lastname_Title/
   - Future improvements and known limitations
   - References
   - Any other things that makes sense to put here for your project
-
