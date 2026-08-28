@@ -1,5 +1,5 @@
-### Project Title
-(Replace with your actual project name)
+### Declutter Your Mind 🧠✨
+
 A README.md file is often the first thing people see from your project. Begin your README.md with a brief, compelling description of what your project does. Consider adding a feature image or demo GIF here to showcase your project visually.
 
 <img src="media/comment.jpeg" width="300">
@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 #### Usage
 Here you shall provide instructions on how to run your project in command line. This is especially important if your project have multiple `.py` files. And it probably looks like this:
-```
+```🧠
 python title.py
 ```
 (Even if you are just running your python files from your IDE or installing your libraries from the code editor, it's still important to have these two sections in your README file.)
