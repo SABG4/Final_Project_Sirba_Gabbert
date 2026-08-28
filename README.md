@@ -2,7 +2,7 @@
 
 A README.md file is often the first thing people see from your project. Begin your README.md with a brief, compelling description of what your project does. Consider adding a feature image or demo GIF here to showcase your project visually.
 
-<img src="media/comment.jpeg" width="300">
+<img src="media/comment.png" width="300">
 
 #### Installation
 If your project includes any 3rd-party libraries, you shall include an Installation section. For your project, it might look like this:
