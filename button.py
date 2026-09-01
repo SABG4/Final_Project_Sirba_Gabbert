@@ -1,5 +1,8 @@
+# code found on github: https://github.com/baraltech/Menu-System-PyGame/blob/main/button.py and alternated for my purposes
+
+
 class Button():
-	def __init__(self, image, pos, text_input, font, base_color, hovering_color):
+	def __init__(self, image, pos, text_input, hovering_color, font =None, base_color=None):
 		self.image = image
 		self.x_pos = pos[0]
 		self.y_pos = pos[1]

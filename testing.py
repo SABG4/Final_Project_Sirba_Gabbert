@@ -34,6 +34,7 @@ def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.SysFont("Arial", size)
 
 def play():
+    pygame.display.set_caption('✨your messy room✨')
     while True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
 
@@ -55,12 +56,12 @@ def play():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
-                    main_menu()
+                    start_screen()
 
         pygame.display.update()
 
 
-# main menu/ start screen used from github: baraltech
+# main menu/ start screen used from github: baraltech and adapted for my specific cases
 def start_screen():
     pygame.display.set_caption('✨start screen✨')
 
@@ -70,14 +71,10 @@ def start_screen():
 
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = get_font(100).render("MAIN MENU", True, "#b68f40")
-        MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
 
-        PLAY_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"), pos=(640, 250),
-                             text_input="PLAY", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+        PLAY_BUTTON = Button(image=pygame.transform.scale(pygame.image.load("media/play button.png"),(155,196)), pos=(464, 450),
+                             text_input="PLAY", font=get_font(25), base_color="lightsalmon3", hovering_color="White")
 
-
-        SCREEN.blit(MENU_TEXT, MENU_RECT)
 
         for button in [PLAY_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
