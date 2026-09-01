@@ -30,7 +30,7 @@ pygame.display.set_caption('✨declutter your mind✨')
 imp = pygame.image.load("media/room.jpg").convert_alpha()
 imp = pygame.transform.scale (imp,(X,Y))
 
-'''
+
 # to-do list object
 todo_img = pygame.image.load("media/todoliste.png").convert_alpha()
 todo_img = pygame.transform.scale (todo_img,(175,175))
@@ -73,10 +73,9 @@ while (status):
 
 # paint screen one time
     pygame.display.flip()
-'''
+
 # deactivates the pygame library
 pygame.quit()
-'''
+
 if __name__ == "__main__":
     main()
-'''
