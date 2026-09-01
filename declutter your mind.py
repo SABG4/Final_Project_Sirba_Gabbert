@@ -1,21 +1,21 @@
 # importing required library
 import pygame
-
-
+import os
+# activate the pygame library .
+pygame.init()
 pygame.mixer.init()
+pygame.display.init()
 
 #including sound into my game
-pygame.mixer.music.load('music.mp3')
+pygame.mixer.music.load('media/music.mp3')
 pygame.mixer.music.play(-1)
 
 
-# activate the pygame library .
-pygame.init()
-X = 1000
-Y = 700
-
 # create the display surface object
 # of specific dimension..e(X, Y).
+X = 900
+Y = 600
+
 scrn = pygame.display.set_mode((X, Y))
 
 scrn.fill(('linen'))
@@ -23,23 +23,26 @@ scrn.fill(('linen'))
 # set the pygame window name
 pygame.display.set_caption('✨declutter your mind✨')
 
+
+#start bildschirm
+
 # create a surface object, image is drawn on it.
-imp = pygame.image.load("room.jpg").convert_alpha()
+imp = pygame.image.load("media/room.jpg").convert_alpha()
 imp = pygame.transform.scale (imp,(X,Y))
 
-
+'''
 # to-do list object
-todo_img = pygame.image.load("todoliste.png").convert_alpha()
+todo_img = pygame.image.load("media/todoliste.png").convert_alpha()
 todo_img = pygame.transform.scale (todo_img,(175,175))
 
 todo_x = 200
 todo_y = 500
 
-#rectangle to recognize the targe
+#rectangle to recognize the target
 todo_rect = pygame.Rect(todo_x,todo_y, 175,175)
 
 # clicking target to score -> source: https://www.youtube.com/watch?v=RvzYnh49Ntg
-font = pygame.font.SysFont('Inconsolata', 30)
+font = pygame.font.SysFont('Arial', 15, 'bold')
 score = 0
 WHITE = (255, 255, 255)
 
@@ -70,7 +73,10 @@ while (status):
 
 # paint screen one time
     pygame.display.flip()
-
+'''
 # deactivates the pygame library
 pygame.quit()
-
+'''
+if __name__ == "__main__":
+    main()
+'''
