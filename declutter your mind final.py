@@ -49,6 +49,11 @@ def play():
 
             pygame.display.update()
 
+def music_on():
+    while True:
+        pygame.mixer.music.load('media/music.mp3')
+        pygame.mixer.music.play(-1)
+
 
 def info():
     pygame.display.set_caption('what is happening')
@@ -61,7 +66,7 @@ def info():
         INFO_SCREEN = pygame.transform.smoothscale(INFO_SCREEN, (860, 560))
         SCREEN.blit(INFO_SCREEN, (40, 40))
 
-        INFO_BACK = Button(image=None, pos=(640, 460),
+        INFO_BACK = Button(image=None, pos=(83, 22),
                            text_input="BACK", font=get_font(45), base_color="White", hovering_color="#b2d6b5")
 
         INFO_BACK.changeColor(INFO_MOUSE_POS)
@@ -78,39 +83,44 @@ def info():
         pygame.display.update()
 
 def settings():
-    pygame.display.set_caption('settings')
+    pygame.display.set_caption('settings⚙️')
+    SCREEN.fill("lightsalmon3")
 
-    '''# including sound into my game
-    pygame.mixer.music.load('media/music.mp3')
-    pygame.mixer.music.play(-1)
-
-
-    MUSIC_ON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/music on.png"), (40, 86)),
-                             pos=(580, 500),
-                             text_input="ON", font=get_font(25), base_color="lightsalmon3", hovering_color="#b2d6b5")
-          '''
     while True:
-        SETTINGS_MOUSE_POS = pygame.mouse.get_pos()
 
-        SCREEN.fill("lightsalmon3")
-
-        SETTINGS_SCREEN = pygame.image.load("media/settingspage.jpeg").convert_alpha()
+        SETTINGS_SCREEN = pygame.image.load("media/settingspage.jpg").convert_alpha()
         SETTINGS_SCREEN = pygame.transform.smoothscale(SETTINGS_SCREEN, (860, 560))
         SCREEN.blit(SETTINGS_SCREEN, (40, 40))
 
-        SETTINGS_BACK = Button(image=None, pos=(640, 460),
+        SETTINGS_MOUSE_POS = pygame.mouse.get_pos()
+
+
+        SETTINGS_BACK = Button(image=None, pos=(83, 22),
                            text_input="BACK", font=get_font(45), base_color="White", hovering_color="#b2d6b5")
 
-        SETTINGS_BACK.changeColor(SETTINGS_MOUSE_POS)
-        SETTINGS_BACK.update(SCREEN)
+
+        MUSIC_ON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/music on button.png"), (80, 86)),
+                          pos=(550, 330),
+                          text_input="ON", font=get_font(25), base_color="white", hovering_color="black")
+
+        for button in [MUSIC_ON]:
+            button.changeColor(SETTINGS_MOUSE_POS)
+            button.update(SCREEN)
+
+        for button in [SETTINGS_BACK]:
+            button.changeColor(SETTINGS_MOUSE_POS)
+            button.update(SCREEN)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
+                if MUSIC_ON.checkforInput(SETTINGS_MOUSE_POS):
+                    music_on()
                 if SETTINGS_BACK.checkForInput(SETTINGS_MOUSE_POS):
                     return ()
+
 
         pygame.display.update()
 
@@ -126,15 +136,15 @@ def start_screen():
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
 
-        PLAY_BUTTON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/play button.png"),(85,96)), pos=(580, 500),
-                             text_input="PLAY", font=get_font(25), base_color="lightsalmon3", hovering_color="#b2d6b5")
+        PLAY_BUTTON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/play button.png"),(105,116)), pos=(570, 500),
+                             text_input="PLAY", font=get_font(25), base_color="black", hovering_color="#b2d6b5")
 
         INFO_BUTTON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/info button.png"), (40, 86)),
-                             pos=(460, 500),
+                             pos=(450, 500),
                              text_input="INFO", font=get_font(25), base_color="lightsalmon3", hovering_color="#b2d6b5")
 
         SETTINGS_BUTTON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/settings button.png"), (79, 86)),
-                             pos=(700, 500),
+                             pos=(704, 500),
                              text_input="SETTINGS", font=get_font(25), base_color="lightsalmon3", hovering_color="#b2d6b5")
 
         for button in [PLAY_BUTTON]:
