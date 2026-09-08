@@ -1,5 +1,26 @@
 import pygame, sys, os
 from button import Button
+from object import TodoSprite
+
+
+pygame.init()
+X, Y = 940, 640
+SCREEN = pygame.display.set_mode((X, Y))
+
+#preloading the music and adjusting the volume
+pygame.mixer.music.load('media/music.mp3')
+pygame.mixer.music.set_volume(1.0)
+clicksound = pygame.mixer.Sound('media/buttonclick.mp3')
+clicksound.set_volume(0.6)
+
+pygame.display.set_caption('✨declutter your mind✨')
+
+    # Load background
+imp = pygame.image.load("media/start screen.jpg").convert_alpha()
+imp = pygame.transform.smoothscale(imp, (860, 560))
+
+
+'''
 
 # pygame setup
 pygame.init()
@@ -8,16 +29,19 @@ X = 940
 Y = 640
 SCREEN = pygame.display.set_mode((X, Y))
 
-#preloading the music
+#preloading the music and adjusting the volume
 pygame.mixer.music.load('media/music.mp3')
+pygame.mixer.music.set_volume(1.0)
+clicksound = pygame.mixer.Sound('media/buttonclick.mp3')
+clicksound.set_volume(0.6)
 
-# set the pygame window name
+# setting the pygame window name
 pygame.display.set_caption('✨declutter your mind✨')
 
-# create a surface object, image is drawn on it.
+# creating a surface object with start screen drawn on it.
 imp = pygame.image.load("media/start screen.jpg").convert_alpha()
 imp = pygame.transform.smoothscale(imp, (860, 560))
-
+'''
 
 def get_font(size): # Returns Press-Start-2P in the desired size
         return pygame.font.SysFont("Monoid", size)
@@ -25,9 +49,27 @@ def get_font(size): # Returns Press-Start-2P in the desired size
 def play():
         pygame.display.set_caption('your messy room😱')
 
+        # Create sprite group
+        todo_group = pygame.sprite.Group()
+        todo_group.add(TodoSprite(200, 500))  # Ein Objekt
+        # todo_group.add(TodoSprite(600, 400))  # Mehrere möglich!
+
+        # Score
+        score = 0
+        font = pygame.font.SysFont('Arial', 15, bold=True)
+        WHITE = (255, 255, 255)
+
+        # Draw
+        SCREEN.blit(imp, (0, 0))
+        todo_group.draw(SCREEN)
+
+        # Draw score
+        score_text = font.render(f"Score: {score}", True, WHITE)
+        SCREEN.blit(score_text, (10, 10))
         while True:
             SCREEN.fill("aliceblue")
             PLAY_MOUSE_POS = pygame.mouse.get_pos()
+            clicked_sprites = [s for s in todo_group if s.rect.collidepoint(PLAY_MOUSE_POS)]
 
 
             PLAY_ROOM = pygame.image.load("media/room.jpg").convert_alpha()
@@ -40,6 +82,9 @@ def play():
             SETTINGS_BUTTON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/settings button.png"), (29, 29)),
                 pos=(164, 20),text_input=None, font=get_font(25), base_color="lightsalmon3", hovering_color="#b2d6b5")
 
+            INFO_BUTTON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/info button.png"), (16, 30)),
+                pos=(204, 20),text_input=None, font=get_font(25), base_color="lightsalmon3", hovering_color="#b2d6b5")
+
             for button in [PLAY_BACK]:
                 button.changeColor(PLAY_MOUSE_POS)
                 button.update(SCREEN)
@@ -48,6 +93,9 @@ def play():
                 button.changeColor(PLAY_MOUSE_POS)
                 button.update(SCREEN)
 
+            for button in [INFO_BUTTON]:
+                button.changeColor(PLAY_MOUSE_POS)
+                button.update(SCREEN)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -55,9 +103,21 @@ def play():
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
+                        clicksound.play()
                         start_screen()
                     if SETTINGS_BUTTON.checkForInput(PLAY_MOUSE_POS):
+                        clicksound.play()
                         settings()
+                    if INFO_BUTTON.checkForInput(PLAY_MOUSE_POS):
+                        clicksound.play()
+                        info()
+                    for sprite in clicked_sprites:
+                        sprite.score += 1
+                        score += 1  # Optional: global score
+                        score_text = font.render(f"Score: {score}", True, 000000)
+                        SCREEN.blit(score_text, (10, 10))
+                        pygame.display.flip()
+
 
             pygame.display.update()
 
@@ -84,7 +144,8 @@ def info():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if INFO_BACK.checkForInput(INFO_MOUSE_POS):
-                    start_screen()
+                    clicksound.play()
+                    return()
 
         pygame.display.update()
 
@@ -131,15 +192,17 @@ def settings():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if MUSIC_ON.checkForInput(SETTINGS_MOUSE_POS):
+                    clicksound.play()
                     pygame.mixer.music.play(-1)
                 if MUSIC_OFF.checkForInput(SETTINGS_MOUSE_POS):
+                    clicksound.play()
                     pygame.mixer.music.stop()
                 if SETTINGS_BACK.checkForInput(SETTINGS_MOUSE_POS):
+                    clicksound.play()
                     return()
 
 
         pygame.display.update()
-
 
 # main menu/ start screen used from github: baraltech and adapted for my specific cases
 def start_screen():
@@ -181,10 +244,13 @@ def start_screen():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    clicksound.play()
                     play()
                 if INFO_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    clicksound.play()
                     info()
                 if SETTINGS_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    clicksound.play()
                     settings()
 
 

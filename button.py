@@ -1,4 +1,5 @@
-# code found on github: https://github.com/baraltech/Menu-System-PyGame/blob/main/button.py and alternated for my purposes
+# code found on github: https://github.com/baraltech/Menu-System-PyGame/blob/main/button.py and alternated for
+#my purposes
 
 
 class Button():
@@ -29,3 +30,6 @@ class Button():
 			self.text = self.font.render(self.text_input, True, self.hovering_color)
 		else:
 			self.text = self.font.render(self.text_input, True, self.base_color)
+
+	def clicksound(self):
+		clicksound.play()
