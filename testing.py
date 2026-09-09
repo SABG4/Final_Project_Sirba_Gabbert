@@ -32,7 +32,7 @@ imp = pygame.transform.scale (imp,(X,Y))
 
 
 # to-do list object
-todo_img = pygame.image.load("media/todoliste.png").convert_alpha()
+todo_img = pygame.image.load("media/mess1.png").convert_alpha()
 todo_img = pygame.transform.scale (todo_img,(175,175))
 
 todo_x = 200

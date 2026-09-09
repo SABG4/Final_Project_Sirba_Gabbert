@@ -1,26 +1,6 @@
 import pygame, sys, os
 from button import Button
-from object import TodoSprite
-
-
-pygame.init()
-X, Y = 940, 640
-SCREEN = pygame.display.set_mode((X, Y))
-
-#preloading the music and adjusting the volume
-pygame.mixer.music.load('media/music.mp3')
-pygame.mixer.music.set_volume(1.0)
-clicksound = pygame.mixer.Sound('media/buttonclick.mp3')
-clicksound.set_volume(0.6)
-
-pygame.display.set_caption('✨declutter your mind✨')
-
-    # Load background
-imp = pygame.image.load("media/start screen.jpg").convert_alpha()
-imp = pygame.transform.smoothscale(imp, (860, 560))
-
-
-'''
+from mess import Mess
 
 # pygame setup
 pygame.init()
@@ -34,6 +14,7 @@ pygame.mixer.music.load('media/music.mp3')
 pygame.mixer.music.set_volume(1.0)
 clicksound = pygame.mixer.Sound('media/buttonclick.mp3')
 clicksound.set_volume(0.6)
+mess_clicksound = pygame.mixer.Sound('media/messclick.mp3')
 
 # setting the pygame window name
 pygame.display.set_caption('✨declutter your mind✨')
@@ -41,7 +22,7 @@ pygame.display.set_caption('✨declutter your mind✨')
 # creating a surface object with start screen drawn on it.
 imp = pygame.image.load("media/start screen.jpg").convert_alpha()
 imp = pygame.transform.smoothscale(imp, (860, 560))
-'''
+
 
 def get_font(size): # Returns Press-Start-2P in the desired size
         return pygame.font.SysFont("Monoid", size)
@@ -49,41 +30,41 @@ def get_font(size): # Returns Press-Start-2P in the desired size
 def play():
         pygame.display.set_caption('your messy room😱')
 
-        # Create sprite group
-        todo_group = pygame.sprite.Group()
-        todo_group.add(TodoSprite(200, 500))  # Ein Objekt
-        # todo_group.add(TodoSprite(600, 400))  # Mehrere möglich!
+        PLAY_ROOM = pygame.image.load("media/room.jpg").convert_alpha()
+        PLAY_ROOM = pygame.transform.smoothscale(PLAY_ROOM, (860, 560))
 
-        # Score
+        font = pygame.font.SysFont('Arial', 15, 'bold')
         score = 0
-        font = pygame.font.SysFont('Arial', 15, bold=True)
-        WHITE = (255, 255, 255)
+        BLACK = (0, 0, 0)
 
-        # Draw
-        SCREEN.blit(imp, (0, 0))
-        todo_group.draw(SCREEN)
+        #setting the different Buttons that are shown on the screen
 
-        # Draw score
-        score_text = font.render(f"Score: {score}", True, WHITE)
-        SCREEN.blit(score_text, (10, 10))
+
+        PLAY_BACK = Button(image=None, pos=(83, 22),
+                           text_input="BACK", font=get_font(45), base_color="#a2a3bb", hovering_color="#b2d6b5")
+
+        SETTINGS_BUTTON = Button(
+            image=pygame.transform.smoothscale(pygame.image.load("media/settings button.png"), (29, 29)),
+            pos=(164, 20), text_input=None, font=get_font(25), base_color="lightsalmon3", hovering_color="#b2d6b5")
+
+        INFO_BUTTON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/info button.png"), (16, 30)),
+                             pos=(204, 20), text_input=None, font=get_font(25), base_color="lightsalmon3",
+                             hovering_color="#b2d6b5")
+
+        mess1 = Mess('media/mess1.png', 204, 20)
+        '''mess2 =
+        mess3 =
+        mess4 =
+        '''
+        all_sprites = pygame.sprite.Group()
+        all_sprites.add(mess1)
+
+
         while True:
             SCREEN.fill("aliceblue")
             PLAY_MOUSE_POS = pygame.mouse.get_pos()
-            clicked_sprites = [s for s in todo_group if s.rect.collidepoint(PLAY_MOUSE_POS)]
 
-
-            PLAY_ROOM = pygame.image.load("media/room.jpg").convert_alpha()
-            PLAY_ROOM = pygame.transform.smoothscale(PLAY_ROOM, (860, 560))
             SCREEN.blit(PLAY_ROOM, (40, 40))
-
-            PLAY_BACK = Button(image=None, pos=(83, 22),
-                           text_input="BACK", font=get_font(45), base_color="#a2a3bb", hovering_color="#b2d6b5")
-
-            SETTINGS_BUTTON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/settings button.png"), (29, 29)),
-                pos=(164, 20),text_input=None, font=get_font(25), base_color="lightsalmon3", hovering_color="#b2d6b5")
-
-            INFO_BUTTON = Button(image=pygame.transform.smoothscale(pygame.image.load("media/info button.png"), (16, 30)),
-                pos=(204, 20),text_input=None, font=get_font(25), base_color="lightsalmon3", hovering_color="#b2d6b5")
 
             for button in [PLAY_BACK]:
                 button.changeColor(PLAY_MOUSE_POS)
@@ -104,20 +85,25 @@ def play():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                         clicksound.play()
-                        start_screen()
+                        return()
                     if SETTINGS_BUTTON.checkForInput(PLAY_MOUSE_POS):
                         clicksound.play()
                         settings()
                     if INFO_BUTTON.checkForInput(PLAY_MOUSE_POS):
                         clicksound.play()
                         info()
-                    for sprite in clicked_sprites:
-                        sprite.score += 1
-                        score += 1  # Optional: global score
-                        score_text = font.render(f"Score: {score}", True, 000000)
-                        SCREEN.blit(score_text, (10, 10))
-                        pygame.display.flip()
+                    for sprite in all_sprites:
+                        if sprite.rect.collidepoint(event.pos):
+                            mess_clicksound.play()
+                            score += 1
+                            sprite.kill()
 
+
+            all_sprites.update()
+            all_sprites.draw(SCREEN)
+
+            score_text = font.render(f"Score: {score}", True, BLACK)
+            SCREEN.blit(score_text, (10, 10))
 
             pygame.display.update()
 
@@ -256,13 +242,10 @@ def start_screen():
 
         pygame.display.update()
 
-start_screen()
+def main():
 
+    start_screen()
 
-'''
-running = True
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-'''
+if __name__ == '__main__':
+    main()
+
