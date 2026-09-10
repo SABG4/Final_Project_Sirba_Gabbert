@@ -15,7 +15,7 @@ pip install -r requirements.txt
 #### Usage
 Here you shall provide instructions on how to run your project in command line. This is especially important if your project have multiple `.py` files. And it probably looks like this:
 ```🧠
-python title.py
+declutter your mind.py
 ```
 (Even if you are just running your python files from your IDE or installing your libraries from the code editor, it's still important to have these two sections in your README file.)
 
