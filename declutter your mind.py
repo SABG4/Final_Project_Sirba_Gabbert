@@ -20,7 +20,7 @@ mess_clicksound = pygame.mixer.Sound('media/messclick.mp3')
 pygame.display.set_caption('✨declutter your mind✨')
 
 # creating a surface object with start screen drawn on it.
-imp = pygame.image.load("media/start screen.jpg").convert_alpha()
+imp = pygame.image.load("media/start screen.jpeg").convert_alpha()
 imp = pygame.transform.smoothscale(imp, (860, 560))
 
 
@@ -33,21 +33,20 @@ def play():
         play_room = pygame.image.load("media/room.jpg").convert_alpha()
         play_room = pygame.transform.smoothscale(play_room, (860, 560))
 
-        tidied_room = pygame.image.load('media/tidiedroom.jpg')
-        tidied_room = pygame.transform.smoothscale(tidied_room, (860, 560))
+        score_block = pygame.image.load("media/score.png").convert_alpha()
+        score_block = pygame.transform.smoothscale(score_block, (153, 50))
 
-        game_over = pygame.image.load()
-        game_over = pygame.transform.smoothscale()
+        game_over = pygame.image.load('media/gameover.png')
+        game_over = pygame.transform.smoothscale(game_over,(860, 590))
 
         font = pygame.font.SysFont('Monoid', 35, )
         score = 0
-        BLACK = (0, 0, 0)
 
         #setting the different Buttons that are shown on the screen
 
 
-        play_back = Button(image=None, pos=(83, 22),
-                           text_input="BACK", font=get_font(45), base_color="#a2a3bb", hovering_color="#b2d6b5")
+        play_back = Button(image=pygame.transform.smoothscale(pygame.image.load("media/back button.png"),(120, 59)), pos=(96, 22),
+                           text_input=None, font=get_font(45), base_color="#a2a3bb", hovering_color="#b2d6b5")
 
         settings_button = Button(
             image=pygame.transform.smoothscale(pygame.image.load("media/settings button.png"), (29, 29)),
@@ -57,7 +56,7 @@ def play():
                              pos=(204, 20), text_input=None, font=get_font(25), base_color="lightsalmon3",
                              hovering_color="#b2d6b5")
 
-        mess1 = Mess('media/mess1.png', 224, 460, 80,80)
+        mess1 = Mess('media/mess1.png', 394, 390, 60,60)
         '''mess2 =
         mess3 =
         mess4 =
@@ -77,6 +76,7 @@ def play():
             play_mouse_pos = pygame.mouse.get_pos()
 
             screen.blit(play_room, (40, 40))
+            screen.blit(score_block,(733, 50))
 
             for button in [play_back]:
                 button.changeColor(play_mouse_pos)
@@ -110,37 +110,41 @@ def play():
                             score += 1
                             sprite.kill()
 
-            if score == 1:
-                screen.blit(tidied_room, (40, 40))
+            score_text = font.render(f"{score}", True, '#313030')
+            screen.blit(score_text, (853, 63))
+
+
 
             if score == 10:
+                pygame.display.set_caption('✨✨✨')
+                screen.fill("lightsalmon3")
                 screen.blit(game_over,(40,40))
 
 
             all_sprites.update()
             all_sprites.draw(screen)
 
-            score_text = font.render(f"Score: {score}", True, BLACK)
-            screen.blit(score_text, (823, 50))
 
             pygame.display.update()
 
 def info():
     pygame.display.set_caption('what is happening❓')
-    while True:
-        info_mouse_pos = pygame.mouse.get_pos()
 
+
+    info_back = Button(image=pygame.transform.smoothscale(pygame.image.load("media/back button.png"),(120, 59)), pos=(83, 22),
+                       text_input=None, font=get_font(45), base_color="White", hovering_color="#b2d6b5")
+
+    while True:
         screen.fill("lightsalmon3")
+
+        info_mouse_pos = pygame.mouse.get_pos()
+        info_back.changeColor(info_mouse_pos)
+        info_back.update(screen)
 
         info_screen = pygame.image.load("media/infopage.jpg").convert_alpha()
         info_screen = pygame.transform.smoothscale(info_screen, (860, 560))
         screen.blit(info_screen, (40, 40))
 
-        info_back = Button(image=None, pos=(83, 22),
-                           text_input="BACK", font=get_font(45), base_color="White", hovering_color="#b2d6b5")
-
-        info_back.changeColor(info_mouse_pos)
-        info_back.update(screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -155,9 +159,9 @@ def info():
 
 def settings():
     pygame.display.set_caption('settings⚙️')
-    screen.fill("lightsalmon3")
 
     while True:
+        screen.fill("lightsalmon3")
 
         settings_screen = pygame.image.load("media/settingspage.png").convert_alpha()
         settings_screen = pygame.transform.smoothscale(settings_screen, (860, 560))
@@ -166,8 +170,8 @@ def settings():
         settings_mouse_pos = pygame.mouse.get_pos()
 
 
-        settings_back = Button(image=None, pos=(83, 22),
-                           text_input="BACK", font=get_font(45), base_color="White", hovering_color="#b2d6b5")
+        settings_back = Button(image=pygame.transform.smoothscale(pygame.image.load("media/back button.png"),(120, 59)), pos=(83, 22),
+                           text_input=None, font=get_font(45), base_color="White", hovering_color="#b2d6b5")
 
 
         music_on = Button(image=pygame.transform.smoothscale(pygame.image.load("media/music on button.png"), (80, 86)),
@@ -220,7 +224,7 @@ def start_screen():
 
 
         play_button = Button(image=pygame.transform.smoothscale(pygame.image.load("media/play button.png"),(105,116)), pos=(570, 500),
-                             text_input="PLAY", font=get_font(25), base_color="black", hovering_color="#b2d6b5")
+                             text_input="PLAY", font=get_font(25), base_color='#313030', hovering_color="#b2d6b5")
 
         info_button = Button(image=pygame.transform.smoothscale(pygame.image.load("media/info button.png"), (40, 86)),
                              pos=(450, 500),
