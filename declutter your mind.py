@@ -69,19 +69,20 @@ def play():
         mess10 = Mess('media/mess10.png', 800, 412, 80, 109)
         mess11 = Mess('media/mess11.png', 360, 400, 120,60)
         mess12 = Mess('media/mess12.png', 542, 490, 80, 130)
+        mess13 = Mess('media/mess13.png', 626, 425, 35, 30)
 
         all_sprites = pygame.sprite.Group()
-        all_sprites.add(mess1, mess2, mess3, mess4, mess5, mess6, mess7, mess8, mess9, mess10, mess11, mess12)
+        all_sprites.add(mess1, mess2, mess3, mess4, mess5, mess6, mess7, mess8, mess9, mess10, mess11, mess12, mess13)
 
         play_button = Button(
             image=pygame.transform.smoothscale(pygame.image.load("media/play button.png"), (89, 100)),
             pos=(855, 570),
             text_input="play again", font=get_font(25), base_color='#fcfc84', hovering_color="#313030")
 
-
-
+        # E3E0DD
         while True:
-            screen.fill("aliceblue")
+            screen.fill("#e3dcce")
+
             play_mouse_pos = pygame.mouse.get_pos()
 
             screen.blit(play_room, (40, 40))
@@ -130,6 +131,7 @@ def play():
             if score == 10:
 
                 all_sprites.empty()
+
                 pygame.display.set_caption('✨✨✨')
                 screen.fill("lightsalmon3")
                 screen.blit(game_over,(40,40))
