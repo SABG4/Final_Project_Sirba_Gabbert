@@ -15,7 +15,7 @@ pygame.mixer.music.set_volume(1.0)
 clicksound = pygame.mixer.Sound('media/buttonclick.mp3')
 clicksound.set_volume(0.6)
 mess_clicksound = pygame.mixer.Sound('media/messclick.mp3')
-
+mess_clicksound.set_volume(0.3)
 # setting the pygame window name
 pygame.display.set_caption('✨declutter your mind✨')
 
@@ -56,19 +56,28 @@ def play():
                              pos=(204, 20), text_input=None, font=get_font(25), base_color="lightsalmon3",
                              hovering_color="#b2d6b5")
 
-        mess1 = Mess('media/mess1.png', 394, 390, 60,60)
-        '''mess2 =
-        mess3 =
-        mess4 =
-        mess5 =
-        mess6 =
-        mess7 =
-        mess8 =
-        mess9 =
-        mess10 =
-'''
+
+        mess1 = Mess('media/mess1.png', 644, 480, 60,60)
+        mess2 = Mess('media/mess2.png', 294, 250, 100, 150)
+        mess3 = Mess('media/mess3.png', 304, 430, 210, 110)
+        mess4 = Mess('media/mess4.png', 504, 420, 100, 120)
+        mess5 = Mess('media/mess5.png', 444, 356, 140, 60)
+        mess6 = Mess('media/mess6.png', 174, 440, 125, 175)
+        mess7 = Mess('media/mess7.png', 487, 120, 70, 90)
+        mess8 = Mess('media/mess8.png', 574, 390, 40, 45)
+        mess9 = Mess('media/mess9.png', 364, 99, 60, 75)
+        mess10 = Mess('media/mess10.png', 800, 412, 80, 109)
+        mess11 = Mess('media/mess11.png', 360, 400, 120,60)
+        mess12 = Mess('media/mess12.png', 542, 490, 80, 130)
+
         all_sprites = pygame.sprite.Group()
-        all_sprites.add(mess1)
+        all_sprites.add(mess1, mess2, mess3, mess4, mess5, mess6, mess7, mess8, mess9, mess10, mess11, mess12)
+
+        play_button = Button(
+            image=pygame.transform.smoothscale(pygame.image.load("media/play button.png"), (89, 100)),
+            pos=(855, 570),
+            text_input="play again", font=get_font(25), base_color='#fcfc84', hovering_color="#313030")
+
 
 
         while True:
@@ -78,6 +87,8 @@ def play():
             screen.blit(play_room, (40, 40))
             screen.blit(score_block,(733, 50))
 
+            all_sprites.update()
+            all_sprites.draw(screen)
             for button in [play_back]:
                 button.changeColor(play_mouse_pos)
                 button.update(screen)
@@ -89,6 +100,7 @@ def play():
             for button in [info_button]:
                 button.changeColor(play_mouse_pos)
                 button.update(screen)
+
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -104,6 +116,7 @@ def play():
                     if info_button.checkForInput(play_mouse_pos):
                         clicksound.play()
                         info()
+
                     for sprite in all_sprites:
                         if sprite.rect.collidepoint(event.pos):
                             mess_clicksound.play()
@@ -111,18 +124,26 @@ def play():
                             sprite.kill()
 
             score_text = font.render(f"{score}", True, '#313030')
-            screen.blit(score_text, (853, 63))
-
+            screen.blit(score_text, (853, 62))
 
 
             if score == 10:
+
+                all_sprites.empty()
                 pygame.display.set_caption('✨✨✨')
                 screen.fill("lightsalmon3")
                 screen.blit(game_over,(40,40))
 
 
-            all_sprites.update()
-            all_sprites.draw(screen)
+                play_button.update(screen)
+                play_button.changeColor(play_mouse_pos)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if play_button.checkForInput(play_mouse_pos):
+                        clicksound.play()
+                        play()
+
+                        all_sprites.update()
+                        all_sprites.draw(screen)
 
 
             pygame.display.update()
