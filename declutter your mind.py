@@ -39,7 +39,8 @@ def play():
         game_over = pygame.image.load('media/gameover.png')
         game_over = pygame.transform.smoothscale(game_over,(860, 590))
 
-        font = pygame.font.SysFont('Monoid', 35, )
+        font_score = pygame.font.SysFont('Monoid',36 )
+        font_message = pygame.font.SysFont ('Monoid', 30)
         score = 0
 
         #setting the different Buttons that are shown on the screen
@@ -56,6 +57,10 @@ def play():
                              pos=(204, 20), text_input=None, font=get_font(25), base_color="lightsalmon3",
                              hovering_color="#b2d6b5")
 
+        half_way_text = font_message.render("you are doing great :)", True, '#313030')
+        motivation_text = font_message.render("try again :)", True, '#313030')
+        text_rect = pygame.Rect(400, 260, 220, 35)
+        play_room_rect = play_room.get_rect(topleft=(40, 40))
 
         mess1 = Mess('media/mess1.png', 644, 480, 60,60)
         mess2 = Mess('media/mess2.png', 294, 250, 100, 150)
@@ -118,17 +123,30 @@ def play():
                         clicksound.play()
                         info()
 
-                    for sprite in all_sprites:
-                        if sprite.rect.collidepoint(event.pos):
-                            mess_clicksound.play()
-                            score += 1
-                            sprite.kill()
+                    if play_room_rect.collidepoint(event.pos):
 
-            score_text = font.render(f"{score}", True, '#313030')
+                        for sprite in all_sprites:
+                            if sprite.rect.collidepoint(event.pos):
+                                mess_clicksound.play()
+                                score += 1
+                                sprite.kill()
+                                break
+                        else:
+
+                            pygame.draw.rect(screen, "#ECE26F", text_rect, border_radius=6)
+                            screen.blit(motivation_text, (407, 267))
+                            pygame.display.update()
+                            pygame.time.delay(800)
+
+            score_text = font_score.render(f"{score}", True, '#313030')
             screen.blit(score_text, (853, 62))
 
 
-            if score == 10:
+            if score == 5:
+                pygame.draw.rect(screen, "#ECE26F", text_rect, border_radius=6)
+                screen.blit(half_way_text, (407,267))
+
+            if score == 11:
 
                 all_sprites.empty()
 
