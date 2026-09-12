@@ -60,6 +60,7 @@ def play():
         half_way_text = font_message.render("you are doing great :)", True, '#313030')
         motivation_text = font_message.render("try again :)", True, '#313030')
         text_rect = pygame.Rect(400, 260, 220, 35)
+        motivation_rect = pygame.Rect(400, 260, 120, 35)
         play_room_rect = play_room.get_rect(topleft=(40, 40))
 
         mess1 = Mess('media/mess1.png', 644, 480, 60,60)
@@ -132,25 +133,28 @@ def play():
                                 sprite.kill()
                                 break
                         else:
-
-                            pygame.draw.rect(screen, "#ECE26F", text_rect, border_radius=6)
+                            clicksound.play()
+                            pygame.draw.rect(screen, "#ECE26F", motivation_rect, border_radius=6)
                             screen.blit(motivation_text, (407, 267))
                             pygame.display.update()
                             pygame.time.delay(800)
 
             score_text = font_score.render(f"{score}", True, '#313030')
-            screen.blit(score_text, (853, 62))
+            screen.blit(score_text, (850, 60))
 
 
             if score == 5:
-                pygame.draw.rect(screen, "#ECE26F", text_rect, border_radius=6)
+                pygame.draw.rect(screen, "#A2DDDE", text_rect, border_radius=6)
                 screen.blit(half_way_text, (407,267))
+                pygame.display.update()
+
 
             if score == 11:
 
                 all_sprites.empty()
 
                 pygame.display.set_caption('✨✨✨')
+                pygame.display.update()
                 screen.fill("lightsalmon3")
                 screen.blit(game_over,(40,40))
 
